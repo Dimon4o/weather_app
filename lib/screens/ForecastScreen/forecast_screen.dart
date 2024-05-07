@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '/data/models/models.dart';
 
-
 String apiKey = 'd3e551015dc04c50b90110622240305';
 String currentCity = 'Omsk';
 int days = 8;
@@ -54,7 +53,6 @@ Map<String, dynamic> parseData(String responseBody) {
   final parsed = Map<String, dynamic>.from(json.decode(responseBody));
   return parsed;
 }
-
 
 class ForecastScreen extends StatelessWidget {
   static ForecastScreen builder(BuildContext context, GoRouterState state) =>
@@ -401,24 +399,52 @@ class ForecastScreen extends StatelessWidget {
                               children: List.generate(
                                 days,
                                 (index) {
-                                  return Container(
-                                    decoration: ShapeDecoration(
-                                      color: AppColors.yellow,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5),
-                                          bottomRight: Radius.circular(5),
-                                        ),
-                                      ),
-                                    ),
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "${thisWeeksWeather.eightDays[index].date}",
+                                        SizedBox(
+                                          width: 50,
+                                          child: Text(
+                                            "${thisWeeksWeather.eightDays[index].date}",
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              height: 0,
+                                            ),
+                                          ),
                                         ),
-                                        Text(
-                                          "${thisWeeksWeather.eightDays[index].maxTemperature}",
+                                        Container(
+                                          height: 30,
+                                          width: 10.0 *
+                                              thisWeeksWeather.eightDays[index]
+                                                  .maxTemperature,
+                                          decoration: ShapeDecoration(
+                                            color: AppColors.yellow,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(5),
+                                                bottomRight: Radius.circular(5),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                "${thisWeeksWeather.eightDays[index].maxTemperature}°",
+                                                style: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -432,6 +458,9 @@ class ForecastScreen extends StatelessWidget {
                     ),
                   ),
                 );
+              } else if (snapshot.hasError) {
+                debugPrint("${snapshot.error}");
+                return const Center(child: Text("ERROR"));
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
