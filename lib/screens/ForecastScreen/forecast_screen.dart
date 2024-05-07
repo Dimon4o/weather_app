@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '/data/models/models.dart';
+import 'widgets/widgets.dart';
 
 String apiKey = 'd3e551015dc04c50b90110622240305';
 String currentCity = 'Omsk';
@@ -18,14 +19,6 @@ String weatherApiUrl = "https://api.weatherapi.com/v1/forecast.json?"
     "&q=${currentCity}"
     "&days=${days}"
     "&aqi=no&alerts=no";
-
-double getNormalHeight(int value, double coefficient) {
-  if (value * coefficient < 60) {
-    return 60;
-  } else {
-    return value * coefficient;
-  }
-}
 
 List<HourlyWeather> hourlyWeatherForDay(List dailyForecast, int dayIndex) {
   final hours = dailyForecast.toList()[dayIndex]["hour"].toList();
@@ -87,12 +80,6 @@ class ForecastScreen extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        // SvgPicture.asset(
-                        //   'assets/icons/Share.svg',
-                        //   height: 20,
-                        //   colorFilter:
-                        //       ColorFilter.mode(AppColors.yellow, BlendMode.srcIn),
-                        // )
                       ],
                     ),
                   ),
@@ -168,292 +155,13 @@ class ForecastScreen extends StatelessWidget {
                     child: ListView(
                       physics: const BouncingScrollPhysics(),
                       children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Right now',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w700,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${currentWeather.cloudyCondition} for the hour',
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${currentWeather.windSpeed}km/h winds from the southwest',
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 110,
-                              height: 110,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFB7F7F2).withOpacity(0.6),
-                                //color: Colors.blue.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Image.network(
-                                "https:${weather["current"]["condition"]["icon"]}",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${currentWeather.temperature}°',
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      color: Color(0xFF262D49),
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.w700,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Feels like ${currentWeather.feelsLike}°',
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      color: Color(0xFF808080),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 25),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Container(
-                                  width: context.deviceSize.width * 0.9,
-                                  color: AppColors.purple,
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Text(
-                                      'Upgrade for radar and more! \nU can’t join the Hello Weather fan club(',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const Text(
-                              'This afternoon',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                height: 0,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: SizedBox(
-                                height: 150,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 16,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 6),
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              width: context.deviceSize.width *
-                                                  0.10,
-                                              height: getNormalHeight(
-                                                  sixteenHoursForecast
-                                                      .listOfForecasts[index]
-                                                      .temperature,
-                                                  10.0),
-                                              decoration: const ShapeDecoration(
-                                                color: Color(0xFFFFA91B),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(5),
-                                                    topRight:
-                                                        Radius.circular(5),
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "${sixteenHoursForecast.listOfForecasts[index].temperature}°",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        height: 0,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      sixteenHoursForecast
-                                                          .listOfForecasts[
-                                                              index]
-                                                          .windDirection
-                                                          .toLowerCase(),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        height: 0,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              sixteenHoursForecast
-                                                  .listOfForecasts[index].time,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        CurrentWeatherWidget(
+                            currentWeather: currentWeather, weather: weather),
+                        const UpgradeVersionButton(),
+                        ThisAfternoonWidget(
+                            sixteenHoursForecast: sixteenHoursForecast),
                         const SizedBox(height: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const Text(
-                              'This week',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                height: 0,
-                              ),
-                            ),
-                            Column(
-                              children: List.generate(
-                                days,
-                                (index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 5),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 50,
-                                          child: Text(
-                                            "${thisWeeksWeather.eightDays[index].date}",
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              height: 0,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 30,
-                                          width: 10.0 *
-                                              thisWeeksWeather.eightDays[index]
-                                                  .maxTemperature,
-                                          decoration: ShapeDecoration(
-                                            color: AppColors.yellow,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(5),
-                                                bottomRight: Radius.circular(5),
-                                              ),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                "${thisWeeksWeather.eightDays[index].maxTemperature}°",
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                  height: 0,
-                                                ),
-                                              ),
-                                              SizedBox(width: 5),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
+                        ThisWeekWidget(thisWeeksWeather: thisWeeksWeather),
                       ],
                     ),
                   ),
