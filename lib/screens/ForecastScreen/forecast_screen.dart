@@ -17,7 +17,7 @@ int days = 8;
 String weatherApiUrl = "https://api.weatherapi.com/v1/forecast.json?"
     "key=${apiKey}"
     "&q=${currentCity}"
-    "&days=${7}"
+    "&days=${days}"
     "&aqi=no&alerts=no";
 
 double getNormalHeight(int value, double coefficient) {
@@ -412,6 +412,7 @@ class ForecastScreen extends StatelessWidget {
                                       ),
                                     ),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           "${thisWeeksWeather.eightDays[index].date}",
