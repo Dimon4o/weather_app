@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'forecast_screen.dart';
 import 'utils/themes/themes.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class WeatherApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: light,
+      home: const ForecastScreen(),
     );
   }
 }
