@@ -153,7 +153,7 @@ class ForecastScreen extends StatelessWidget {
                       children: [
                         CurrentWeatherWidget(
                             currentWeather: currentWeather, weather: weather),
-                        const UpgradeVersionButton(),
+                        const SizedBox(height: 20),
                         ThisAfternoonWidget(
                             sixteenHoursForecast: sixteenHoursForecast),
                         const SizedBox(height: 20),
