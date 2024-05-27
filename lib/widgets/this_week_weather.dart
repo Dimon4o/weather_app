@@ -1,10 +1,7 @@
-
-
 import 'package:flutter/material.dart';
-
-import '../../../config/themes/themes.dart';
-import '../../../data/models/models.dart';
-import '../../../utils/utils.dart';
+import 'package:weather_app/data/weather_models.dart';
+import '../utils/themes/themes.dart';
+import '../utils/utils.dart';
 import '../forecast_screen.dart';
 
 class ThisWeekWidget extends StatelessWidget {

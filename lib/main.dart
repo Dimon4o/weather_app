@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '/config/themes/themes.dart';
-
-import 'config/router/router.dart';
+import 'utils/themes/themes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  runApp(const ProviderScope(child: WeatherApp()));
+  runApp(const WeatherApp());
 }
 
 class WeatherApp extends StatelessWidget {
@@ -18,10 +15,9 @@ class WeatherApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: light,
-      routerConfig: router,
     );
   }
 }

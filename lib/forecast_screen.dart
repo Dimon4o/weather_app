@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:go_router/go_router.dart';
-
-import '/config/themes/themes.dart';
+import 'package:weather_app/data/weather_models.dart';
+import 'utils/themes/themes.dart';
 import '/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '/data/models/models.dart';
 import 'widgets/widgets.dart';
 
 String apiKey = 'd3e551015dc04c50b90110622240305';
@@ -48,8 +46,6 @@ Map<String, dynamic> parseData(String responseBody) {
 }
 
 class ForecastScreen extends StatelessWidget {
-  static ForecastScreen builder(BuildContext context, GoRouterState state) =>
-      const ForecastScreen();
   const ForecastScreen({super.key});
 
   @override

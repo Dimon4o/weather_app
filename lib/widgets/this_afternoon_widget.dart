@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/data/weather_models.dart';
 import 'package:weather_app/utils/utils.dart';
-
-import '../../../data/models/models.dart';
 
 class ThisAfternoonWidget extends StatelessWidget {
   const ThisAfternoonWidget({

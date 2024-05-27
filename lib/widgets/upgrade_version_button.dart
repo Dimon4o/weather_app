@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/utils/utils.dart';
 
-import '../../../config/themes/themes.dart';
+import '../utils/themes/themes.dart';
 
 class UpgradeVersionButton extends StatelessWidget {
   const UpgradeVersionButton({
