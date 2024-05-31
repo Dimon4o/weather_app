@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -220,7 +219,6 @@ class ForecastScreen extends StatelessWidget {
   }
 }
 
-
 class ThisWeekWidget extends StatelessWidget {
   const ThisWeekWidget({
     super.key,
@@ -332,7 +330,6 @@ class ThisWeekWidget extends StatelessWidget {
   }
 }
 
-
 class ThisAfternoonWidget extends StatelessWidget {
   const ThisAfternoonWidget({
     super.key,
@@ -438,7 +435,6 @@ class ThisAfternoonWidget extends StatelessWidget {
     );
   }
 }
-
 
 class CurrentWeatherWidget extends StatelessWidget {
   const CurrentWeatherWidget({
