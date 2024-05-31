@@ -22,16 +22,7 @@ List<HourlyWeather> hourlyWeatherForDay(List dailyForecast, int dayIndex) {
   final hours = dailyForecast.toList()[dayIndex]["hour"].toList();
   return List.generate(
     hours.length,
-    (hour) {
-      return HourlyWeather(
-        cloudyCondition: hours[hour]["condition"]["text"],
-        windSpeed: hours[hour]["wind_kph"].toInt(),
-        windDirection: hours[hour]["wind_dir"],
-        temperature: hours[hour]["temp_c"].toInt(),
-        humidity: hours[hour]["humidity"].toInt(),
-        time: hours[hour]["time"].toString().split(" ")[1],
-      );
-    },
+    (hour) => HourlyWeather.fromJson(hours[hour]),
   );
 }
 
@@ -93,7 +84,7 @@ class ForecastScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 final weather = snapshot.data!;
                 final dailyForecast =
-                    snapshot.data!["forecast"]["forecastday"].toList();
+                    weather["forecast"]["forecastday"].toList();
 
                 final currentHour = int.tryParse(
                   weather["location"]["localtime"]
@@ -105,38 +96,11 @@ class ForecastScreen extends StatelessWidget {
                 final thisWeeksWeather = ThisWeeksWeather(
                   eightDays: List.generate(
                     dailyForecast.length,
-                    (index) {
-                      return DailyWeather(
-                        date: dailyForecast[index]["date"]
-                            .toString()
-                            .split("-")[2],
-                        cloudyCondition: dailyForecast[index]["day"]
-                            ["condition"]["text"],
-                        windSpeed:
-                            dailyForecast[index]["day"]["maxwind_kph"].toInt(),
-                        maxTemperature:
-                            dailyForecast[index]["day"]["maxtemp_c"].toInt(),
-                        minTemperature:
-                            dailyForecast[index]["day"]["mintemp_c"].toInt(),
-                        averageTemperature:
-                            dailyForecast[index]["day"]["avgtemp_c"].toInt(),
-                        humidity:
-                            dailyForecast[index]["day"]["avghumidity"].toInt(),
-                      );
-                    },
+                    (index) => DailyWeather.fromJson(dailyForecast[index]),
                   ),
                 );
 
-                final currentWeather = CurrentWeather(
-                  cloudyCondition: weather["current"]["condition"]["text"],
-                  windSpeed: weather["current"]["wind_kph"].toInt(),
-                  windDirection: weather["current"]["wind_dir"],
-                  temperature: weather["current"]["temp_c"].toInt(),
-                  feelsLike: weather["current"]["feelslike_c"].toInt(),
-                  humidity: weather["current"]["humidity"].toInt(),
-                  sunriseTime: dailyForecast[0]["astro"]["sunrise"],
-                  sunsetTime: dailyForecast[0]["astro"]["sunset"],
-                );
+                final currentWeather = CurrentWeather.fromJson(weather);
 
                 final sixteenHoursForecast = SixteenHoursWeather(
                   thisDayForecast: hourlyWeatherForDay(dailyForecast, 0),
