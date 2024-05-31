@@ -7,7 +7,6 @@ class CurrentWeatherWidget extends StatelessWidget {
     required this.currentWeather,
     required this.weather,
   });
-
   final CurrentWeather currentWeather;
   final Map<String, dynamic> weather;
 
@@ -56,7 +55,6 @@ class CurrentWeatherWidget extends StatelessWidget {
               height: 110,
               decoration: BoxDecoration(
                 color: const Color(0xFFB7F7F2).withOpacity(0.6),
-                //color: Colors.blue.withOpacity(0.4),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Image.network(
