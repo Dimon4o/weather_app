@@ -18,14 +18,6 @@ String weatherApiUrl = "https://api.weatherapi.com/v1/forecast.json?"
     "&days=${days}"
     "&aqi=no&alerts=no";
 
-List<HourlyWeather> hourlyWeatherForDay(List dailyForecast, int dayIndex) {
-  final hours = dailyForecast.toList()[dayIndex]["hour"].toList();
-  return List.generate(
-    hours.length,
-    (hour) => HourlyWeather.fromJson(hours[hour]),
-  );
-}
-
 Future<Map<String, dynamic>> fetchWeatherDataFromUrl(String apiUrl) async {
   final response = await http.Client().get(Uri.parse(apiUrl));
   return compute(parseData, response.body);
@@ -38,6 +30,14 @@ Map<String, dynamic> parseData(String responseBody) {
 
 class ForecastScreen extends StatelessWidget {
   const ForecastScreen({super.key});
+
+  List<HourlyWeather> hourlyWeatherForDay(List dailyForecast, int dayIndex) {
+    final hours = dailyForecast.toList()[dayIndex]["hour"].toList();
+    return List.generate(
+      hours.length,
+      (hour) => HourlyWeather.fromJson(hours[hour]),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,23 +85,19 @@ class ForecastScreen extends StatelessWidget {
                 final weather = snapshot.data!;
                 final dailyForecast =
                     weather["forecast"]["forecastday"].toList();
-
+                final currentWeather = CurrentWeather.fromJson(weather);
                 final currentHour = int.tryParse(
                   weather["location"]["localtime"]
                       .toString()
                       .split(" ")[1]
                       .split(":")[0],
                 );
-
                 final thisWeeksWeather = ThisWeeksWeather(
                   eightDays: List.generate(
                     dailyForecast.length,
                     (index) => DailyWeather.fromJson(dailyForecast[index]),
                   ),
                 );
-
-                final currentWeather = CurrentWeather.fromJson(weather);
-
                 final sixteenHoursForecast = SixteenHoursWeather(
                   thisDayForecast: hourlyWeatherForDay(dailyForecast, 0),
                   nextDayForecast: hourlyWeatherForDay(dailyForecast, 1),
@@ -116,12 +112,17 @@ class ForecastScreen extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       children: [
                         CurrentWeatherWidget(
-                            currentWeather: currentWeather, weather: weather),
+                          currentWeather: currentWeather,
+                          weather: weather,
+                        ),
                         const SizedBox(height: 20),
                         ThisAfternoonWidget(
-                            sixteenHoursForecast: sixteenHoursForecast),
+                          sixteenHoursForecast: sixteenHoursForecast,
+                        ),
                         const SizedBox(height: 20),
-                        ThisWeekWidget(thisWeeksWeather: thisWeeksWeather),
+                        ThisWeekWidget(
+                          thisWeeksWeather: thisWeeksWeather,
+                        ),
                       ],
                     ),
                   ),
